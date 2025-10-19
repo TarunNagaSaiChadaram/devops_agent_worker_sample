@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout') {
             agent { label 'worker-a' }
             steps {
-                git branch: 'main', url: 'https://github.com/<your-username>/hello-maven.git'
+                git branch: 'main', url: 'https://github.com/TarunNagaSaiChadaram/hello-maven.git'
                 stash name: 'source'
             }
         }
