@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout') {
             agent { label 'worker-a' }
             steps {
-                git branch: 'main', url: 'https://github.com/TarunNagaSaiChadaram/hello-maven.git'
+                git branch: 'main', url: 'https://github.com/TarunNagaSaiChadaram/devops_agent_worker_sample.git'
                 stash name: 'source'
             }
         }
@@ -17,7 +17,7 @@ pipeline {
                     steps {
                         unstash 'source'
                         sh 'mvn clean package'
-                        archiveArtifacts artifacts: 'target/hello-maven-1.0-SNAPSHOT.jar', fingerprint: true
+                        archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
                     }
                 }
                 stage('Build on Worker-B') {
@@ -25,7 +25,7 @@ pipeline {
                     steps {
                         unstash 'source'
                         sh 'mvn clean package'
-                        archiveArtifacts artifacts: 'target/hello-maven-1.0-SNAPSHOT.jar', fingerprint: true
+                        archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
                     }
                 }
             }
@@ -34,7 +34,7 @@ pipeline {
         stage('Run Program on Worker-A') {
             agent { label 'worker-a' }
             steps {
-                sh 'java -jar target/hello-maven-1.0-SNAPSHOT.jar'
+                sh 'java -jar target/*.jar'
             }
         }
     }
